@@ -1,19 +1,8 @@
 
-void sendIr() {
-
-
-  tempsAct = millis(); //temps actuel
-  if (tempsAct - tempsPasse > 500) { //si 50ms passées
-    sending = true;
-    irsend.sendSony(0xa90, 12);
-    irrecv.enableIRIn();
-    tempsPasse = tempsAct; //on réinitialise le temps
-    sending = false;
-  }
-
-
-
-
-
+void sendIr(unsigned long to_send) {
+  irsend.sendSony(to_send, 12);
+  delay(50);
+  irrecv.enableIRIn();
+  delay(50);
 }
 
