@@ -1,36 +1,75 @@
-void actions(int me, unsigned long received, Per l[]){
-  if(received == 0){
-    return;
+int actions(int me, unsigned long received, Per l[], int latence){
+  //if(me == "GARDE" and interrupteur = nok)
+    //play("zerzer")
+  
+  //if(me == "fillette" and tiltdetector = nok)
+    //return
+  
+  latence = latence - 1;
+
+  if (latence < 1){
+    latence = 0;
+    set_led_reset();
+    ishappy = false;
+    isbof = false;
+    iscolere = false;
   }
   
-  if(l[me].ir_expected_1 == received){
+  if(received == 0){
+    return latence;
+  }
+  
+  if(l[me].ir_expected_1 == received and !ishappy){
     set_led_youpi();
     Serial.println("youpi youpi");
+    latence = latence_max;
+    ishappy = true;
+    isbof = false;
+    iscolere = false;   
   }
-  else if(l[me].ir_expected_2 == received){
+  else if(l[me].ir_expected_2 == received and !isbof){
     set_led_moyen();
-    Serial.println("peut mieux faire");
+    Serial.println("bof");
+    latence = latence_max;
+    ishappy = false;
+    isbof = true;
+    iscolere = false; 
   }
-  else{
+  else if(l[me].ir_expected_3 == received and !iscolere){
     set_led_non();
-    Serial.println("pas content");
+    Serial.println("colere");
+    latence = latence_max;
+    ishappy = false;
+    isbof = false;
+    iscolere = true;
   }
+
+  return latence;
 }
 
 void set_led_youpi(){
   digitalWrite(PIN_LED_YOUPI, HIGH);
   digitalWrite(PIN_LED_MOYEN, HIGH);
   digitalWrite(PIN_LED_NON, HIGH);
+  myDFPlayer.play(1);
 }
 
 void set_led_moyen(){
   digitalWrite(PIN_LED_YOUPI, LOW);
   digitalWrite(PIN_LED_MOYEN, HIGH);
   digitalWrite(PIN_LED_NON, HIGH);
+  myDFPlayer.play(2);
 }
 
 void set_led_non(){
   digitalWrite(PIN_LED_YOUPI, LOW);
   digitalWrite(PIN_LED_MOYEN, LOW);
   digitalWrite(PIN_LED_NON, HIGH);
+  myDFPlayer.play(3);
+}
+
+void set_led_reset(){
+  digitalWrite(PIN_LED_YOUPI, LOW);
+  digitalWrite(PIN_LED_MOYEN, LOW);
+  digitalWrite(PIN_LED_NON, LOW);
 }
