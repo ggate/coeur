@@ -4,7 +4,7 @@ int get_persona(Per l[]){
   Serial.println(sizeof(l));
   int res;
   
-  for(int i; i < sizeof(l); i++)
+  for(int i; i < 4; i++)
   {
     Serial.println(i);
     Serial.println(res);
