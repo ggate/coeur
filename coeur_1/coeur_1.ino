@@ -5,15 +5,7 @@
 #include "DFRobotDFPlayerMini.h"
 #include "SoftwareSerial.h"
 
-
 #define RECV_PIN 8 // il faut vérifier que cette PIN permet la reception IR sur toutes les boards
-
-/// la je définis les PIN digital qui vont commander les 3 leds sur les arduinos...
-//#define PIN_LED_YOUPI 9
-//#define PIN_LED_MOYEN 10
-//#define PIN_LED_NON 11
-
-
 
 struct Per { //un personnage c'est:
   char name[10]; //un nom
@@ -49,13 +41,12 @@ bool ishappy = false;
 bool isbof = false;
 bool iscolere = false;
 
-SoftwareSerial mySoftwareSerial(10, 11); // RX, TX
+SoftwareSerial mySoftwareSerial(10, 11); // TX, RX (1K resistor on RX (11))
 DFRobotDFPlayerMini myDFPlayer;
-
 
 void setup() {
   mySoftwareSerial.begin(9600);
-  Serial.begin(19200); //initialisation communication série.
+  Serial.begin(115200); //initialisation communication série.
 
   if (!myDFPlayer.begin(mySoftwareSerial)) {  //Use softwareSerial to communicate with mp3.
     Serial.println(F("Unable to begin:"));
@@ -64,25 +55,20 @@ void setup() {
     while(true);
   }
   Serial.println(F("DFPlayer Mini online."));
-  
   myDFPlayer.volume(30);  //Set volume value. From 0 to 30
   
   irrecv.enableIRIn(); // Start the receiver
-  get_persona(l_pers, &me); //cette fonction renvoie le personnage assignée à la carte arduino
-  Serial.println(me);
+  get_persona(l_pers, &me); //cette fonction renvoie le personnage assignée à la carte arduino  
   to_send = get_to_send(me, l_pers); //renvoie le code IR a envoyer
   Serial.println(to_send, HEX);
-  /// Préparation des PIN pour la commande des LEDS
 }
 
 void loop() {
   sendIr(to_send); //envoie le code IR
   unsigned long received = receiveIr(); //écoute les code IR recus
   latence = actions(me, received, l_pers, latence); //réalise des actions en fonctions de ce qui est recu  
-  delay(abs(me)*30); // une bidouille pour eviter que les personnages se synchronise
-  Serial.println(F("Res"));
-  Serial.println(me);
-  // et n'arrive plus à s'écouter.
+  delay(abs(me)*30); // une bidouille pour eviter que les personnages se synchronise  
+  Serial.println(l_pers[me].name);
 }
 
 

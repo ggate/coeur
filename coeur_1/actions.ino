@@ -12,7 +12,7 @@ int actions(int me, unsigned long received, Per l[], int latence){
     set_led_reset();
     ishappy = false;
     isbof = false;
-    iscolere = false;
+    iscolere = false;    
   }
   
   if(received == 0){
@@ -48,28 +48,16 @@ int actions(int me, unsigned long received, Per l[], int latence){
 }
 
 void set_led_youpi(){
-//  digitalWrite(PIN_LED_YOUPI, HIGH);
-//  digitalWrite(PIN_LED_MOYEN, HIGH);
-//  digitalWrite(PIN_LED_NON, HIGH);
   myDFPlayer.play(1);
 }
 
 void set_led_moyen(){
-//  digitalWrite(PIN_LED_YOUPI, LOW);
-//  digitalWrite(PIN_LED_MOYEN, HIGH);
-//  digitalWrite(PIN_LED_NON, HIGH);
   myDFPlayer.play(2);
 }
 
 void set_led_non(){
-//  digitalWrite(PIN_LED_YOUPI, LOW);
-//  digitalWrite(PIN_LED_MOYEN, LOW);
-//  digitalWrite(PIN_LED_NON, HIGH);
   myDFPlayer.play(3);
 }
 
 void set_led_reset(){
-//  digitalWrite(PIN_LED_YOUPI, LOW);
-//  digitalWrite(PIN_LED_MOYEN, LOW);
-//  digitalWrite(PIN_LED_NON, LOW);
 }
