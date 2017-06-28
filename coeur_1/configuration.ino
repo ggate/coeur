@@ -1,24 +1,19 @@
-int get_persona(Per l[]){
+void get_persona(Per l[], int * res){
   pinMode(LED_BUILTIN, OUTPUT);
   digitalWrite(LED_BUILTIN, LOW);
-  Serial.println(sizeof(l));
-  int res;
+  Serial.println(sizeof(l)); 
   
-  for(int i; i < 4; i++)
+  for(int i; i < 3; i++)
   {
     Serial.println(i);
-    Serial.println(res);
+    Serial.println(*res);
     if(is_this(l[i].config_pin))
     {
       Serial.println(l[i].name);
       Serial.println(i);
-      res = i;
-      Serial.println(res);
+      *res = i; 
     }
-  }
-  
-  Serial.println(res);
-  return res;
+  }  
 }
 
 boolean is_this(unsigned int pin){
@@ -27,9 +22,11 @@ boolean is_this(unsigned int pin){
   delay(100);
   if(digitalRead(pin) == HIGH){
     digitalWrite(LED_BUILTIN, HIGH);
-    return true;
+    Serial.println("True");  
+    return true;    
   }
   else{
+    Serial.println("False");
     return false;
   }
 }

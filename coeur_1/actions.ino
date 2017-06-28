@@ -35,41 +35,41 @@ int actions(int me, unsigned long received, Per l[], int latence){
     isbof = true;
     iscolere = false; 
   }
-  else if(l[me].ir_expected_3 == received and !iscolere){
-    set_led_non();
-    Serial.println("colere");
-    latence = latence_max;
-    ishappy = false;
-    isbof = false;
-    iscolere = true;
-  }
+//  else if(l[me].ir_expected_3 == received and !iscolere){
+//    set_led_non();
+//    Serial.println("colere");
+//    latence = latence_max;
+//    ishappy = false;
+//    isbof = false;
+//    iscolere = true;
+//  }
 
   return latence;
 }
 
 void set_led_youpi(){
-  digitalWrite(PIN_LED_YOUPI, HIGH);
-  digitalWrite(PIN_LED_MOYEN, HIGH);
-  digitalWrite(PIN_LED_NON, HIGH);
+//  digitalWrite(PIN_LED_YOUPI, HIGH);
+//  digitalWrite(PIN_LED_MOYEN, HIGH);
+//  digitalWrite(PIN_LED_NON, HIGH);
   myDFPlayer.play(1);
 }
 
 void set_led_moyen(){
-  digitalWrite(PIN_LED_YOUPI, LOW);
-  digitalWrite(PIN_LED_MOYEN, HIGH);
-  digitalWrite(PIN_LED_NON, HIGH);
+//  digitalWrite(PIN_LED_YOUPI, LOW);
+//  digitalWrite(PIN_LED_MOYEN, HIGH);
+//  digitalWrite(PIN_LED_NON, HIGH);
   myDFPlayer.play(2);
 }
 
 void set_led_non(){
-  digitalWrite(PIN_LED_YOUPI, LOW);
-  digitalWrite(PIN_LED_MOYEN, LOW);
-  digitalWrite(PIN_LED_NON, HIGH);
+//  digitalWrite(PIN_LED_YOUPI, LOW);
+//  digitalWrite(PIN_LED_MOYEN, LOW);
+//  digitalWrite(PIN_LED_NON, HIGH);
   myDFPlayer.play(3);
 }
 
 void set_led_reset(){
-  digitalWrite(PIN_LED_YOUPI, LOW);
-  digitalWrite(PIN_LED_MOYEN, LOW);
-  digitalWrite(PIN_LED_NON, LOW);
+//  digitalWrite(PIN_LED_YOUPI, LOW);
+//  digitalWrite(PIN_LED_MOYEN, LOW);
+//  digitalWrite(PIN_LED_NON, LOW);
 }
