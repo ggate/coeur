@@ -13,26 +13,25 @@ struct Per { //un personnage c'est:
   // en changeant la PIN branchée sur 5V on fait changer de personnage un arduino en particulier
   unsigned long ir_send; //un code envoyé a tout le monde
   unsigned long ir_expected_1; //un code expected pour etre youpi youpi
-  unsigned long ir_expected_2; //un code expected pour etre bof  
+  unsigned long ir_expected_2; //un code expected pour etre pas content  
 };
 
 //Creation des personnage et des regles du scenario
 // les trucs entre les accolades, ce sont les valeurs que je décide de donner au 5 parametres de la structure Per (voir 5 lignes plus haut).
 // donc le "5" du personnage "reine" ci-dessous correspond à sa "config_pin", le "Ox93" correspond à son ir_send, etc...
-Per garde = {"garde", 5, 0x10, 0x810, 0x410}; //on crée le personnage "garde"
-Per fillette = {"fillette", 6, 0x810, 0x410, 0x10}; //on crée le personnage "fillette"
-Per acrobate = {"acrobate", 7, 0x410, 0x10, 0x810}; //on crée le personnage "acrobate"
+Per garde = {"garde", 5, 0x10, 0x810, 0x410}; //on crée le personnage "garde" //emetrre
+Per fillette = {"fillette", 6, 0x810, 0x10, 0x410}; //on crée le personnage "fillette"
+Per viellard = {"viellard", 7, 0x410, 0x410, 0x10}; //on crée le personnage "viellard"
 // Ici le scenario dit : acrobate -> fillette -> garde -> acrobate pour que tout le monde soit "youpi youpi"
 // personnage non defini ici lui parle dans les oreilles
 
 
-Per l_pers[] = {garde, fillette, acrobate}; // on crée une liste avec tous les personnage utile pour la suite
+Per l_pers[] = {garde, fillette, viellard}; // on crée une liste avec tous les personnage utile pour la suite
 
 // Initialisations
-IRsend irsend;
 IRrecv irrecv(RECV_PIN);
-int me = -1;
-unsigned long to_send = 0x93;
+int me = 2; // Viellard
+
 decode_results results;
 int latence_max = 300;
 int latence = latence_max;
@@ -57,19 +56,15 @@ void setup() {
   Serial.println(F("DFPlayer Mini online."));
   myDFPlayer.volume(30);  //Set volume value. From 0 to 30
   
-  irrecv.enableIRIn(); // Start the receiver
-  get_persona(l_pers, &me); //cette fonction renvoie le personnage assignée à la carte arduino  
-  to_send = get_to_send(me, l_pers); //renvoie le code IR a envoyer
-  //Serial.println(to_send, HEX);
+  irrecv.enableIRIn(); // Start the receiver  
 }
 
-void loop() {
-  sendIr(to_send); //envoie le code IR
+void loop() {  
   unsigned long received = receiveIr(); //écoute les code IR recus
   latence = actions(me, received, l_pers, latence); //réalise des actions en fonctions de ce qui est recu  
-  //delay(abs(me)*300); // une bidouille pour eviter que les personnages se synchronise  
+  //delay(abs(me)*300); // une bidouille pour eviter que les personnages se synchronise
   delay(5);
-  Serial.println(l_pers[me].name);
+  //Serial.println(l_pers[me].name);
 }
 
 

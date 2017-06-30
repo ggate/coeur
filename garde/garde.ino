@@ -30,46 +30,19 @@ Per l_pers[] = {garde, fillette, acrobate}; // on crée une liste avec tous les 
 
 // Initialisations
 IRsend irsend;
-IRrecv irrecv(RECV_PIN);
-int me = -1;
-unsigned long to_send = 0x93;
+int me = 0; //Garde
+unsigned long to_send = 0x10;
+
 decode_results results;
 int latence_max = 300;
 int latence = latence_max;
 
-bool ishappy = false;
-bool isbof = false;
-bool iscolere = false;
-
-SoftwareSerial mySoftwareSerial(10, 11); // TX, RX (1K resistor on RX (11))
-DFRobotDFPlayerMini myDFPlayer;
-
-void setup() {
-  mySoftwareSerial.begin(9600);
-  Serial.begin(19200); //initialisation communication série.
-
-  if (!myDFPlayer.begin(mySoftwareSerial)) {  //Use softwareSerial to communicate with mp3.
-    Serial.println(F("Unable to begin:"));
-    Serial.println(F("1.Please recheck the connection!"));
-    Serial.println(F("2.Please insert the SD card!"));
-    while(true);
-  }
-  Serial.println(F("DFPlayer Mini online."));
-  myDFPlayer.volume(30);  //Set volume value. From 0 to 30
-  
-  irrecv.enableIRIn(); // Start the receiver
-  get_persona(l_pers, &me); //cette fonction renvoie le personnage assignée à la carte arduino  
-  to_send = get_to_send(me, l_pers); //renvoie le code IR a envoyer
-  //Serial.println(to_send, HEX);
+void setup() {  
+  Serial.begin(19200); //initialisation communication série.        
 }
 
 void loop() {
-  sendIr(to_send); //envoie le code IR
-  unsigned long received = receiveIr(); //écoute les code IR recus
-  latence = actions(me, received, l_pers, latence); //réalise des actions en fonctions de ce qui est recu  
-  //delay(abs(me)*300); // une bidouille pour eviter que les personnages se synchronise  
-  delay(5);
-  Serial.println(l_pers[me].name);
+  sendIr(to_send); //envoie le code IR      
 }
 
 
